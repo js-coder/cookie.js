@@ -88,7 +88,10 @@ cookie.set = function (key, value, options) {
     sameSite = sameSite ? ';SameSite=' + sameSite : '';
     if (options.sameSite === null) sameSite = '';
 
-    document.cookie = utils.encode(key) + '=' + utils.encode(value) + expires + path + domain + secure + sameSite;
+    var partitioned = options.partitioned || this.defaults.partitioned ? ';partitioned' : '';
+    if (options.partitioned === false) partitioned = '';
+
+    document.cookie = utils.encode(key) + '=' + utils.encode(value) + expires + path + domain + secure + sameSite + partitioned;
   }
 
   return this; // Return the `cookie` object to make chaining possible.

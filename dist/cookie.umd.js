@@ -2,7 +2,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.cookie = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   // Copyright (c) Florian Hartmann, https://github.com/florian https://github.com/florian/cookie.js
 
@@ -92,7 +92,10 @@
       sameSite = sameSite ? ';SameSite=' + sameSite : '';
       if (options.sameSite === null) sameSite = '';
 
-      document.cookie = utils.encode(key) + '=' + utils.encode(value) + expires + path + domain + secure + sameSite;
+      var partitioned = options.partitioned || this.defaults.partitioned ? ';partitioned' : '';
+      if (options.partitioned === false) partitioned = '';
+
+      document.cookie = utils.encode(key) + '=' + utils.encode(value) + expires + path + domain + secure + sameSite + partitioned;
     }
 
     return this; // Return the `cookie` object to make chaining possible.
@@ -178,4 +181,4 @@
 
   return cookie;
 
-}));
+})));

@@ -71,6 +71,26 @@ exports.test = function(context) {
 
         mockStorage.should.deep.equal(['a=1']);
       });
+
+      it('should set partitioned flag for a cookie', function() {
+        cookie.set('a', '1', { partitioned: true });
+
+        mockStorage.should.deep.equal(['a=1;partitioned']);
+      });
+
+      it('uses the default partitioned flag', function() {
+        cookie.defaults = { partitioned: true };
+        cookie.set('a', '1');
+
+        mockStorage.should.deep.equal(['a=1;partitioned']);
+      });
+
+      it('allows to override the default partitioned flag', function() {
+        cookie.defaults = { partitioned: true };
+        cookie.set('a', '1', { partitioned: false });
+
+        mockStorage.should.deep.equal(['a=1']);
+      });
     });
   });
 };
